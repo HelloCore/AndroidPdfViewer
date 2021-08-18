@@ -232,6 +232,9 @@ public class PDFView extends RelativeLayout {
     /** Spacing on Bottom of last page, in px */
     private int spacingBottomPx = 0;
 
+    /** Spacing on Lef and Right of page, in px */
+    private int sideMarginPx = 0;
+
     /** Add dynamic spacing to fit each page separately on the screen. */
     private boolean autoSpacing = false;
 
@@ -1234,6 +1237,10 @@ public class PDFView extends RelativeLayout {
         return spacingBottomPx;
     }
 
+    public int getSideMarginPx() {
+        return sideMarginPx;
+    }
+
     public boolean isAutoSpacingEnabled() {
         return autoSpacing;
     }
@@ -1256,6 +1263,10 @@ public class PDFView extends RelativeLayout {
 
     private void setSpacingBottom(int spacingDp) {
         this.spacingBottomPx = Util.getDP(getContext(), spacingDp);
+    }
+
+    private void setSideMargin(int sideMarginDp) {
+        this.sideMarginPx = Util.getDP(getContext(), sideMarginDp);
     }
 
     private void setAutoSpacing(boolean autoSpacing) {
@@ -1396,6 +1407,8 @@ public class PDFView extends RelativeLayout {
 
         private int spacingBottom = 0;
 
+        private int sideMargin = 0;
+
         private boolean autoSpacing = false;
 
         private FitPolicy pageFitPolicy = FitPolicy.WIDTH;
@@ -1527,6 +1540,11 @@ public class PDFView extends RelativeLayout {
             return this;
         }
 
+        public Configurator sideMargin(int sideMargin) {
+            this.sideMargin = sideMargin;
+            return this;
+        }
+
         public Configurator autoSpacing(boolean autoSpacing) {
             this.autoSpacing = autoSpacing;
             return this;
@@ -1590,6 +1608,7 @@ public class PDFView extends RelativeLayout {
             PDFView.this.setSpacing(spacing);
             PDFView.this.setSpacingTop(spacingTop);
             PDFView.this.setSpacingBottom(spacingBottom);
+            PDFView.this.setSideMargin(sideMargin);
             PDFView.this.setAutoSpacing(autoSpacing);
             PDFView.this.setPageFitPolicy(pageFitPolicy);
             PDFView.this.setFitEachPage(fitEachPage);

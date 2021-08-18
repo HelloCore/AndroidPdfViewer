@@ -15,6 +15,8 @@
  */
 package com.github.barteksc.pdfviewer.util;
 
+import android.util.Log;
+
 import com.shockwave.pdfium.util.Size;
 import com.shockwave.pdfium.util.SizeF;
 
@@ -29,14 +31,16 @@ public class PageSizeCalculator {
     private float widthRatio;
     private float heightRatio;
     private boolean fitEachPage;
+    private int sideMargin;
 
     public PageSizeCalculator(FitPolicy fitPolicy, Size originalMaxWidthPageSize, Size originalMaxHeightPageSize,
-                              Size viewSize, boolean fitEachPage) {
+                              Size viewSize, boolean fitEachPage, int sideMargin) {
         this.fitPolicy = fitPolicy;
         this.originalMaxWidthPageSize = originalMaxWidthPageSize;
         this.originalMaxHeightPageSize = originalMaxHeightPageSize;
         this.viewSize = viewSize;
         this.fitEachPage = fitEachPage;
+        this.sideMargin = sideMargin;
         calculateMaxPages();
     }
 
@@ -44,7 +48,10 @@ public class PageSizeCalculator {
         if (pageSize.getWidth() <= 0 || pageSize.getHeight() <= 0) {
             return new SizeF(0, 0);
         }
-        float maxWidth = fitEachPage ? viewSize.getWidth() : pageSize.getWidth() * widthRatio;
+        float maxWidth = fitEachPage ? viewSize.getWidth() : (pageSize.getWidth() * widthRatio) - (sideMargin * 2);
+        Log.e("calculate", "original " + pageSize.getWidth() * widthRatio);
+        Log.e("calculate", "maxWidth " + maxWidth);
+        Log.e("calculate", "sideMargin " + sideMargin);
         float maxHeight = fitEachPage ? viewSize.getHeight() : pageSize.getHeight() * heightRatio;
         switch (fitPolicy) {
             case HEIGHT:

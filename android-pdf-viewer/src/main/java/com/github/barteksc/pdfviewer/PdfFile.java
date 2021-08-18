@@ -59,6 +59,8 @@ class PdfFile {
     private int spacingTopPx;
     /** Fixed spacing on Bottom of last page  in pixels */
     private int spacingBottomPx;
+    /** Fixed spacing on Left and Right page  in pixels */
+    private int sideMarginPx;
     /** Calculate spacing automatically so each page fits on it's own in the center of the view */
     private boolean autoSpacing;
     /** Calculated offsets for pages */
@@ -80,7 +82,7 @@ class PdfFile {
     private int[] originalUserPages;
 
     PdfFile(PdfiumCore pdfiumCore, PdfDocument pdfDocument, FitPolicy pageFitPolicy, Size viewSize, int[] originalUserPages,
-            boolean isVertical, int spacing, int spacingTop, int spacingBottom, boolean autoSpacing, boolean fitEachPage) {
+            boolean isVertical, int spacing, int spacingTop, int spacingBottom, int sideMargin, boolean autoSpacing, boolean fitEachPage) {
         this.pdfiumCore = pdfiumCore;
         this.pdfDocument = pdfDocument;
         this.pageFitPolicy = pageFitPolicy;
@@ -89,6 +91,7 @@ class PdfFile {
         this.spacingPx = spacing;
         this.spacingTopPx = spacingTop;
         this.spacingBottomPx = spacingBottom;
+        this.sideMarginPx = sideMargin;
         this.autoSpacing = autoSpacing;
         this.fitEachPage = fitEachPage;
         setup(viewSize);
@@ -123,7 +126,7 @@ class PdfFile {
     public void recalculatePageSizes(Size viewSize) {
         pageSizes.clear();
         PageSizeCalculator calculator = new PageSizeCalculator(pageFitPolicy, originalMaxWidthPageSize,
-                originalMaxHeightPageSize, viewSize, fitEachPage);
+                originalMaxHeightPageSize, viewSize, fitEachPage, sideMarginPx);
         maxWidthPageSize = calculator.getOptimalMaxWidthPageSize();
         maxHeightPageSize = calculator.getOptimalMaxHeightPageSize();
 
@@ -200,7 +203,7 @@ class PdfFile {
 
     private void preparePagesOffset() {
         pageOffsets.clear();
-        float offset = spacingPx;
+        float offset = spacingTopPx;
         for (int i = 0; i < getPagesCount(); i++) {
             SizeF pageSize = pageSizes.get(i);
             float size = isVertical ? pageSize.getHeight() : pageSize.getWidth();

@@ -123,6 +123,7 @@ public class PDFViewActivity extends AppCompatActivity implements OnPageChangeLi
                 .spacing(10) // in dp
                 .spacingTop(10)
                 .spacingBottom(10)
+                .sideMargin(10)
                 .onPageError(this)
                 .load();
     }
