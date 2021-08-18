@@ -57,6 +57,8 @@ class PdfFile {
     private int spacingPx;
     /** Fixed spacing on Top of page 1 in pixels */
     private int spacingTopPx;
+    /** Fixed spacing on Bottom of last page  in pixels */
+    private int spacingBottomPx;
     /** Calculate spacing automatically so each page fits on it's own in the center of the view */
     private boolean autoSpacing;
     /** Calculated offsets for pages */
@@ -78,7 +80,7 @@ class PdfFile {
     private int[] originalUserPages;
 
     PdfFile(PdfiumCore pdfiumCore, PdfDocument pdfDocument, FitPolicy pageFitPolicy, Size viewSize, int[] originalUserPages,
-            boolean isVertical, int spacing, int spacingTop, boolean autoSpacing, boolean fitEachPage) {
+            boolean isVertical, int spacing, int spacingTop, int spacingBottom, boolean autoSpacing, boolean fitEachPage) {
         this.pdfiumCore = pdfiumCore;
         this.pdfDocument = pdfDocument;
         this.pageFitPolicy = pageFitPolicy;
@@ -86,6 +88,7 @@ class PdfFile {
         this.isVertical = isVertical;
         this.spacingPx = spacing;
         this.spacingTopPx = spacingTop;
+        this.spacingBottomPx = spacingBottom;
         this.autoSpacing = autoSpacing;
         this.fitEachPage = fitEachPage;
         setup(viewSize);
@@ -192,7 +195,7 @@ class PdfFile {
                 length += spacingPx;
             }
         }
-        documentLength = length + spacingTopPx;
+        documentLength = length + spacingTopPx + spacingBottomPx;
     }
 
     private void preparePagesOffset() {
@@ -212,7 +215,7 @@ class PdfFile {
                 offset += size + pageSpacing.get(i) / 2f;
             } else {
                 pageOffsets.add(offset);
-                offset += size + spacingTopPx;
+                offset += size + spacingPx;
             }
         }
     }
