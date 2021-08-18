@@ -100,6 +100,12 @@ pdfView.fromAsset(String)
     .enableAntialiasing(true) // improve rendering a little bit on low-res screens
     // spacing between pages in dp. To define spacing color, set view background
     .spacing(0)
+    // spacing on Top of page 1 in dp. To define spacing color, set view background
+    .spacingTop(0)
+    // spacing on Bottom of last page in dp. To define spacing color, set view background
+    .spacingBottom(0)
+    // spacing on Left and Right of page in dp. To define spacing color, set view background
+    .sideMargin(0)
     .autoSpacing(false) // add dynamic spacing to fit each page on its own on the screen
     .linkHandler(DefaultLinkHandler)
     .pageFitPolicy(FitPolicy.WIDTH) // mode to fit pages in the view
