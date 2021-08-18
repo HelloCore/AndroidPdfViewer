@@ -226,6 +226,9 @@ public class PDFView extends RelativeLayout {
     /** Spacing between pages, in px */
     private int spacingPx = 0;
 
+    /** Spacing on Top of page 1, in px */
+    private int spacingTopPx = 0;
+
     /** Add dynamic spacing to fit each page separately on the screen. */
     private boolean autoSpacing = false;
 
@@ -291,7 +294,7 @@ public class PDFView extends RelativeLayout {
         }
 
         page = pdfFile.determineValidPageNumberFrom(page);
-        float offset = page == 0 ? 0 : -pdfFile.getPageOffset(page, zoom);
+        float offset = page == 0 ? spacingTopPx : -pdfFile.getPageOffset(page, zoom);
         if (swipeVertical) {
             if (withAnimation) {
                 animationManager.startYAnimation(currentYOffset, offset);
@@ -1215,6 +1218,10 @@ public class PDFView extends RelativeLayout {
         return spacingPx;
     }
 
+    public int getSpacingTopPx() {
+        return spacingTopPx;
+    }
+
     public boolean isAutoSpacingEnabled() {
         return autoSpacing;
     }
@@ -1229,6 +1236,10 @@ public class PDFView extends RelativeLayout {
 
     private void setSpacing(int spacingDp) {
         this.spacingPx = Util.getDP(getContext(), spacingDp);
+    }
+
+    private void setSpacingTop(int spacingDp) {
+        this.spacingTopPx = Util.getDP(getContext(), spacingDp);
     }
 
     private void setAutoSpacing(boolean autoSpacing) {
@@ -1365,6 +1376,8 @@ public class PDFView extends RelativeLayout {
 
         private int spacing = 0;
 
+        private int spacingTop = 0;
+
         private boolean autoSpacing = false;
 
         private FitPolicy pageFitPolicy = FitPolicy.WIDTH;
@@ -1486,6 +1499,11 @@ public class PDFView extends RelativeLayout {
             return this;
         }
 
+        public Configurator spacingTop(int spacingTop) {
+            this.spacingTop = spacingTop;
+            return this;
+        }
+
         public Configurator autoSpacing(boolean autoSpacing) {
             this.autoSpacing = autoSpacing;
             return this;
@@ -1547,6 +1565,7 @@ public class PDFView extends RelativeLayout {
             PDFView.this.setScrollHandle(scrollHandle);
             PDFView.this.enableAntialiasing(antialiasing);
             PDFView.this.setSpacing(spacing);
+            PDFView.this.setSpacingTop(spacingTop);
             PDFView.this.setAutoSpacing(autoSpacing);
             PDFView.this.setPageFitPolicy(pageFitPolicy);
             PDFView.this.setFitEachPage(fitEachPage);
