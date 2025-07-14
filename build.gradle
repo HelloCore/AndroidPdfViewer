@@ -12,6 +12,22 @@ buildscript {
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 
+android {
+    compileSdkVersion 35
+
+    defaultConfig {
+        minSdkVersion 28
+        targetSdkVersion 35
+        versionCode 1
+        versionName "1.0"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
 allprojects {
     repositories {
         google()
@@ -27,7 +43,7 @@ publishing {
             }
             groupId = 'com.github.HelloCore'
             artifactId = 'AndroidPdfViewer'
-            version = '3.3.0'
+            version = '3.3.1'
         }
     }
 }
