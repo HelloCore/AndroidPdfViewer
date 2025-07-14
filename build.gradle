@@ -1,17 +1,33 @@
 
 buildscript {
     repositories {
+        mavenCentral()
         google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.2'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
+
+apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 allprojects {
     repositories {
         google()
         maven { url 'https://jitpack.io' }
+    }
+}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            afterEvaluate {
+                from components.release
+            }
+            groupId = 'com.github.HelloCore'
+            artifactId = 'AndroidPdfViewer'
+            version = '3.3.0'
+        }
     }
 }
